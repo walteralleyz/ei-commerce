@@ -6,6 +6,8 @@ import { createConnection } from 'typeorm';
 import { options } from './helpers/ormconfig';
 import { router as productsRouter } from './routes/products';
 import { router as clientsRouter } from './routes/clients';
+import { router as employeesRouter } from './routes/employees';
+import { router as salesRouter } from './routes/sales';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -19,5 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/products', productsRouter);
 app.use('/api/clients', clientsRouter);
+app.use('/api/employees', employeesRouter);
+app.use('/api/sales', salesRouter);
 
 app.listen(port, () => console.log('Server listening on', port));

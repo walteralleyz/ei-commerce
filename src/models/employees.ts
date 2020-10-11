@@ -9,13 +9,14 @@ import { createHmac } from 'crypto';
 import { config } from 'dotenv';
 
 import { Sales } from './sales';
+import { IEntity } from '../controller/template';
 
 config();
 const hmac = createHmac('sha256', process.env.KEY_SECRET || 'teste');
 
 @Entity()
 @Unique([ 'email' ])
-export class Employees {
+export class Employees implements IEntity {
     @BeforeInsert()
     encryptPassword() {
         hmac.update(this.password);

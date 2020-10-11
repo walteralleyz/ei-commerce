@@ -8,8 +8,10 @@ import { Clients } from './clients';
 import { Products } from './products';
 import { Employees } from './employees';
 
+import { IEntity } from '../controller/template';
+
 @Entity()
-export class Sales {
+export class Sales implements IEntity {
     @PrimaryGeneratedColumn()
     id: number;
 

@@ -7,9 +7,8 @@ export class Template {
     repository: Repository<any>;
     obj: IEntity;
 
-    create(request: Request, response: Response) {
-        this.obj = this.fillObj(request.body);
-
+    async create(request: Request, response: Response) {
+        this.obj = await this.fillObj(request.body);
         this.repository.save(this.obj);
 
         response.status(201).json({ success: 'teste' })
@@ -33,6 +32,13 @@ export class Template {
 
     loadRepository(template: any) {
         this.repository = getRepository(template);
+    }
+
+    async findById(id: number): Promise<any> {
+        const found = await this.repository.findOne(id);
+        const result = await found;
+
+        return result;
     }
 
     fillObj(body: any): any {}
