@@ -1,8 +1,8 @@
 import { ConnectionOptions } from 'typeorm';
 import { config } from 'dotenv';
 
-import { Categories } from '../models/categories';
-import { Consumer } from '../models/costumer';
+import { Cat } from '../models/categories';
+import { Clients } from '../models/clients';
 import { Employees } from '../models/employees';
 import { Products } from '../models/products';
 import { Sales } from '../models/sales';
@@ -10,11 +10,8 @@ import { Sales } from '../models/sales';
 config();
 
 export const options: ConnectionOptions = {
-    host: process.env.DATABASE_HOST,
-    port: 5432,
-    username: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PSWD,
-    database: process.env.DATABASE_DATA,
+    url: process.env.DATABASE_URL,
+    synchronize: true,
     type: 'postgres',
     ssl: {
         rejectUnauthorized: false
@@ -24,8 +21,8 @@ export const options: ConnectionOptions = {
         migrationsDir: 'migration'
     },
     entities: [
-        Categories,
-        Consumer,
+        Cat,
+        Clients,
         Employees,
         Products,
         Sales

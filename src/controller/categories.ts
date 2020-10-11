@@ -1,19 +1,21 @@
-import { IEntity, Template } from './template';
-import { Categories } from '../models/categories';
+import { Template } from './template';
+import { Cat } from '../models/categories';
 
 export class CategoriesController extends Template {
     constructor() {
         super();
         
-        this.loadRepository(Categories);
+        this.loadRepository(Cat);
     }
 
-    fillObj(body: any): IEntity {
-        const categoryObj = new Categories();
-        const { category } = body;
+    fillObj(body: any) {
+        const category = new Cat();
+        category.category = body;
 
-        categoryObj.category = category;
-
-        return categoryObj;
+        this.repository.find({ category: body })
+        .then(data => {
+            if(data.length) return false;
+            this.repository.save(category);
+        })
     }
 }

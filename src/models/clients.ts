@@ -11,11 +11,12 @@ import { config } from 'dotenv';
 import { Sales } from './sales';
 
 config();
+
 const hmac = createHmac('sha256', process.env.KEY_SECRET || 'teste');
 
 @Entity()
-@Unique([ 'email' ])
-export class Employees {
+@Unique([ 'email', 'phone' ]) 
+export class Clients {
     @BeforeInsert()
     encryptPassword() {
         hmac.update(this.password);
@@ -32,16 +33,10 @@ export class Employees {
     email: string;
 
     @Column()
-    position: string;
+    phone: string;
 
     @Column()
     password: string;
-
-    @Column({ type: 'int8' })
-    status: number
-
-    @Column({ type: 'float' })
-    salary: number;
 
     @Column({ type: 'bigint' })
     createdat: number;
@@ -49,6 +44,6 @@ export class Employees {
     @Column({ type: 'bigint' })
     updatedat: number;
 
-    @OneToMany(() => Sales, sales => sales.employees)
+    @OneToMany(() => Sales, sales => sales.clients)
     sales: Sales[]
 }

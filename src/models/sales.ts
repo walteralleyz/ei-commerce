@@ -4,7 +4,7 @@ import {
     ManyToOne, Column
 } from 'typeorm';
 
-import { Consumer } from './costumer';
+import { Clients } from './clients';
 import { Products } from './products';
 import { Employees } from './employees';
 
@@ -16,8 +16,8 @@ export class Sales {
     @Column()
     qnt: number;
 
-    @ManyToOne(() => Consumer, consumer => consumer.sales)
-    consumer: Consumer
+    @ManyToOne(() => Clients, clients => clients.sales)
+    clients: Clients
 
     @ManyToOne(() => Products, products => products.sales)
     products: Products
@@ -25,9 +25,9 @@ export class Sales {
     @ManyToOne(() => Employees, employees => employees.sales)
     employees: Employees
 
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'bigint' })
     createdat: number;
 
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'bigint' })
     updatedat: number;
 }

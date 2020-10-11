@@ -9,7 +9,7 @@ import { IEntity } from '../controller/template';
 
 @Entity()
 @Unique([ 'category' ])
-export class Categories implements IEntity {
+export class Cat implements IEntity {
     @PrimaryGeneratedColumn()
     id: number;
 

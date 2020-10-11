@@ -4,11 +4,12 @@ import {
     Column,
     OneToMany
 } from 'typeorm';
+import { IEntity } from '../controller/template';
 
 import { Sales } from './sales';
 
 @Entity()
-export class Products {
+export class Products implements IEntity {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -18,18 +19,18 @@ export class Products {
     @Column()
     category: string;
 
-    @Column({ type: 'bigint' })
+    @Column({ type: 'float' })
     price: number;
 
     @Column()
     qnt: number;
 
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'bigint' })
     createdat: number;
 
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'bigint' })
     updatedat: number;
 
-    @OneToMany(() => Sales, sales => sales.consumer)
+    @OneToMany(() => Sales, sales => sales.products)
     sales: Sales[]
 }
