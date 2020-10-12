@@ -3,7 +3,6 @@ import { config } from 'dotenv';
 
 import { Cat } from '../models/categories';
 import { Clients } from '../models/clients';
-import { Employees } from '../models/employees';
 import { Products } from '../models/products';
 import { Sales } from '../models/sales';
 
@@ -11,7 +10,7 @@ config();
 
 export const options: ConnectionOptions = {
     url: process.env.DATABASE_URL,
-    synchronize: true,
+    synchronize: false,
     type: 'postgres',
     ssl: {
         rejectUnauthorized: false
@@ -23,7 +22,6 @@ export const options: ConnectionOptions = {
     entities: [
         Cat,
         Clients,
-        Employees,
         Products,
         Sales
     ]

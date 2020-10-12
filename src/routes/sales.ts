@@ -1,10 +1,11 @@
 import { Request, Response, Router } from "express";
+import { template } from './template';
 import { SalesController } from "../controller/sales";
+
+import { create, validator } from '../helpers/salesValidator';
 
 const instance = () => new SalesController();
 
 export const router = [
-    Router().post('/', (rq: Request, rp: Response) => instance().create(rq, rp)),
-    Router().get('/:id', (rq: Request, rp: Response) => instance().read(rq, rp)),
-    Router().get('/', (rq: Request, rp: Response) => instance().readAll(rp))
+    ...template(create, validator, instance)
 ];

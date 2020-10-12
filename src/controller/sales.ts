@@ -36,7 +36,7 @@ export class SalesController extends Template {
     read(request: Request, response: Response) {
         const { id } = request.params;
 
-        this.repository.findOne(id, { relations: ['clients', 'products', 'employees' ]})
+        this.repository.findOne(id, { relations: ['clients', 'products']})
         .then(data => response.status(200).json(data))
         .catch(err => response.status(403).json({ error: 'Não encontrado' }));
     }
