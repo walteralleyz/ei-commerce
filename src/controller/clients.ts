@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+
 import { IEntity, Template } from './template';
 import { Clients } from '../models/clients';
 
@@ -20,5 +22,13 @@ export class ClientsController extends Template {
         clients.updatedat = new Date().getTime();
 
         return clients;
+    }
+
+    read(request: Request, response: Response) {
+        const { id } = request.params;
+
+        this.repository.findOne(id, { relations: ['sales']})
+        .then(data => response.status(200).json(data))
+        .catch(err => response.status(403).json({ error: 'Não encontrado' }));
     }
 }

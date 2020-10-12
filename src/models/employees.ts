@@ -49,7 +49,4 @@ export class Employees implements IEntity {
 
     @Column({ type: 'bigint' })
     updatedat: number;
-
-    @OneToMany(() => Sales, sales => sales.employees)
-    sales: Sales[]
 }

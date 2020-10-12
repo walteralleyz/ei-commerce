@@ -25,4 +25,20 @@ export class ProductsController extends Template {
 
         return products;
     }
+
+    async sold(id:number, qnt: number) {
+        let product = await this.repository.findOne(id);
+
+        if(!product)
+            return false;
+            
+        if(product.qnt - qnt < 0)
+            return false;
+
+        product.qnt = product.qnt - qnt;
+
+        product = await this.repository.save(product);
+
+        return product;
+    }
 }

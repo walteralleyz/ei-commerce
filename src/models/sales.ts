@@ -6,7 +6,6 @@ import {
 
 import { Clients } from './clients';
 import { Products } from './products';
-import { Employees } from './employees';
 
 import { IEntity } from '../controller/template';
 
@@ -23,9 +22,6 @@ export class Sales implements IEntity {
 
     @ManyToOne(() => Products, products => products.sales)
     products: Products
-
-    @ManyToOne(() => Employees, employees => employees.sales)
-    employees: Employees
 
     @Column({ type: 'bigint' })
     createdat: number;

@@ -5,7 +5,6 @@ import { Sales } from '../models/sales';
 
 import { ClientsController } from './clients';
 import { ProductsController } from './products';
-import { EmployeesController } from './employees';
 
 export class SalesController extends Template {
     constructor() {
@@ -16,15 +15,20 @@ export class SalesController extends Template {
 
     async fillObj(body: any): Promise<IEntity> {
         const sales = new Sales();
-        const { clientID, productID, employeesID, qnt } = body;
+        const { clientID, productID, qnt } = body;
 
-        sales.employees = await new EmployeesController().findById(employeesID);
         sales.clients = await new ClientsController().findById(clientID);
-        sales.products = await new ProductsController().findById(productID);
+        sales.products = await new ProductsController().sold(productID, qnt);
         sales.qnt = qnt;
         
         sales.createdat = new Date().getTime();
         sales.updatedat = new Date().getTime();
+
+        if(!sales.products.qnt)
+            return false;
+
+        if(!sales.clients || !sales.products)
+            return false;
 
         return sales;
     }
