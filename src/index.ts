@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import "reflect-metadata";
 import { createConnection } from 'typeorm';
@@ -15,6 +16,7 @@ createConnection(options)
 .then(() => console.log('Database connected!'))
 .catch(err => console.log(err));
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

@@ -36,8 +36,25 @@ export class SalesController extends Template {
     read(request: Request, response: Response) {
         const { id } = request.params;
 
-        this.repository.findOne(id, { relations: ['clients', 'products']})
-        .then(data => response.status(200).json(data))
-        .catch(err => response.status(403).json({ error: 'Não encontrado' }));
+        this.defaultResponse(
+            this.repository.findOne(id, { relations: ['clients', 'products']}),
+            response,
+            'Não encontrado!'
+        );
+    }
+
+    async update(request: Request, response: Response) {
+        const { id } = request.params;
+        const { clientID, productID, qnt } = request.body;
+
+        const sales = await this.findById(+id);
+        sales.clients = await new ClientsController().findById(clientID);
+        sales.products = await new ProductsController().sold(productID, qnt);
+
+        this.defaultResponse(
+            this.repository.save(sales),
+            response,
+            'Falha na operação!'
+        );
     }
 }

@@ -32,10 +32,10 @@ export class ProductsController extends Template {
         if(!product)
             return false;
             
-        if(product.qnt - qnt < 0)
+        if(product.qnt + qnt < 0)
             return false;
 
-        product.qnt = product.qnt - qnt;
+        product.qnt = product.qnt + qnt;
 
         product = await this.repository.save(product);
 

@@ -5,23 +5,17 @@ import {
     Unique,
     OneToMany, BeforeInsert
 } from 'typeorm';
-import { createHmac } from 'crypto';
-import { config } from 'dotenv';
 
 import { Sales } from './sales';
 import { IEntity } from '../controller/template';
-
-config();
-
-const hmac = createHmac('sha256', process.env.KEY_SECRET || 'teste');
+import { encrypt } from '../helpers/encrypt';
 
 @Entity()
 @Unique([ 'email', 'phone' ]) 
 export class Clients implements IEntity {
     @BeforeInsert()
     encryptPassword() {
-        hmac.update(this.password);
-        this.password = hmac.digest('hex');
+        this.password = encrypt(this.password);
     }
 
     @PrimaryGeneratedColumn()

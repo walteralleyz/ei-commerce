@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { IEntity, Template } from './template';
 import { Clients } from '../models/clients';
+import { encrypt, JWTEncoded } from '../helpers/encrypt';
 
 export class ClientsController extends Template {
     constructor() {
@@ -27,8 +28,27 @@ export class ClientsController extends Template {
     read(request: Request, response: Response) {
         const { id } = request.params;
 
-        this.repository.findOne(id, { relations: ['sales']})
-        .then(data => response.status(200).json(data))
-        .catch(err => response.status(403).json({ error: 'Não encontrado' }));
+        this.defaultResponse(
+            this.repository.findOne(id, { relations: ['sales']}),
+            response,
+            'Não encontrado!'
+        );
+    }
+
+    login(request: Request, response: Response) {
+        const { email, password } = request.body;
+
+        this.repository.findOne({ email })
+        .then(data => {
+            if(data.password === encrypt(password)) {
+                const token = JWTEncoded({ email: data.email });
+
+                response.cookie('token', token, { expires: new Date('12-30-2050') })
+                return response.status(200).json({ success: 'ok' });
+            }
+
+            response.status(403).json({ error: 'Usuário não encontrado!' });
+        })
+        .catch(err => response.status(500).json({ error: 'Erro Interno' }));
     }
 }

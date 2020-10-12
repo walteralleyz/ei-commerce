@@ -22,23 +22,29 @@ export class Template {
     read(request: Request, response: Response) {
         const { id } = request.params;
 
-        this.repository.findOne(id)
-        .then(data => response.status(200).json(data))
-        .catch(err => response.status(403).json({ error: 'Não encontrado' }));
+        this.defaultResponse(
+            this.repository.findOne(id),
+            response,
+            'Não encontrado!'
+        );
     }
 
     readAll(response: Response) {
-        this.repository.find({})
-        .then(data => response.status(200).json(data))
-        .catch(err => response.status(403).json({ error: 'Não encontrado' }));
+        this.defaultResponse(
+            this.repository.find({}),
+            response,
+            'Não encontrado!'
+        );
     }
 
     delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        this.repository.delete(id)
-        .then(data => response.status(200).json(data))
-        .catch(err => response.status(403).json({ error: 'Não encontrado' }));
+        this.defaultResponse(
+            this.repository.delete(id), 
+            response, 
+            'Não encontrado!'
+        );
     }
 
     loadRepository(template: any) {
@@ -50,6 +56,12 @@ export class Template {
         const result = await found;
 
         return result;
+    }
+
+    defaultResponse(fn: any, rp: any, msg: string) {
+        fn
+        .then((data: any) => rp.status(200).json(data))
+        .catch((err: any) => rp.status(403).json({ error: msg }));
     }
 
     fillObj(body: any): any {}

@@ -8,6 +8,11 @@ export const create = [
     body('password').isString().isLength({ min: 6 })
 ];
 
+export const login = [
+    body('email').isEmail(),
+    body('password').isString().isLength({ min: 6 })
+];
+
 export const validator = (rq: Request, rp: Response, next: any) => {
     const errors = validationResult(rq);
 
