@@ -25,6 +25,9 @@ export class Clients implements IEntity {
     name: string;
 
     @Column()
+    position: string;
+
+    @Column()
     email: string;
 
     @Column()

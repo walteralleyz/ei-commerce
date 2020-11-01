@@ -7,5 +7,7 @@ import { JWTDecode } from "../helpers/encrypt";
 const instance = () => new ProductsController();
 
 export const router = [
-    ...template(JWTDecode, create, validator, instance)
+    ...template(JWTDecode, create, validator, instance),
+    Router().post('/', JWTDecode, create, validator, (rq: Request, rp: Response) => instance().create(rq, rp)),
+    Router().get('/', (req: Request, res: Response) => instance().readAll(res))
 ];

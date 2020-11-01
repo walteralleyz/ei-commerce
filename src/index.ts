@@ -4,7 +4,7 @@ import express from 'express';
 import "reflect-metadata";
 import { createConnection } from 'typeorm';
 
-import { options } from './helpers/ormconfig';
+import options from './helpers/ormconfig';
 import { router as productsRouter } from './routes/products';
 import { router as clientsRouter } from './routes/clients';
 import { router as salesRouter } from './routes/sales';

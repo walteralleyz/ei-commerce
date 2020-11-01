@@ -17,7 +17,7 @@ export const JWTDecode = (rq: Request, rp: Response, next: any) => {
         const token = rq.headers['access-control-allow-headers'].split(' ')[1];
         const decoded = JWT.verify(token, process.env.KEY_SECRET || 'teste');
 
-        if(JSON.stringify(decoded).includes('email'))
+        if(Object.keys(decoded).indexOf('email') !== -1)
             return next();
     }
 

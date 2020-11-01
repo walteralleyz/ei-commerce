@@ -13,7 +13,7 @@ export class Template {
         if(typeof this.obj === 'object') {
             this.repository.save(this.obj);
 
-            return response.status(201).json({ success: 'teste' });
+            return response.status(201).json({ success: 'salvo' });
         }
 
         response.status(400).json({ error: 'Não foi possivel salvar!' });

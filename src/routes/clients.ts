@@ -9,6 +9,7 @@ const instance = () => new ClientsController;
 
 export const router = [
     ...template(JWTDecode, create, validator, instance),
+    Router().post('/', (rq: Request, rp: Response) => instance().create(rq, rp)),
     Router().post('/login', login, validator, 
     (rq: Request, rp: Response) => instance().login(rq, rp))
 ];

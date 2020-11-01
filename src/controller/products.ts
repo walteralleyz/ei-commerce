@@ -1,6 +1,7 @@
 import { IEntity, Template } from "./template";
 import { Products } from '../models/products';
 import { CategoriesController } from './categories';
+import { ClientsController } from "./clients";
 
 export class ProductsController extends Template {
     constructor() {
@@ -9,21 +10,28 @@ export class ProductsController extends Template {
         this.loadRepository(Products)
     }
 
-    fillObj(body: any): IEntity {
-        const { label, category, price, qnt } = body;
+    async fillObj(body: any): Promise<IEntity | boolean> {
+        const { label, category, price, qnt, email } = body;
         const products = new Products();
         const categories = new CategoriesController();
+        const clients = new ClientsController();
 
-        products.label = label;
-        products.category = category;
-        products.price = price;
-        products.qnt = qnt;
-        products.createdat = new Date().getTime();
-        products.updatedat = new Date().getTime();
+        let clientData = await clients.repository.findOne({ email });
 
-        categories.fillObj(category);
+        if(clientData?.position === 'admin') {
+            products.label = label;
+            products.category = category;
+            products.price = price;
+            products.qnt = qnt;
+            products.createdat = new Date().getTime();
+            products.updatedat = new Date().getTime();
 
-        return products;
+            categories.fillObj(category);
+
+            return products;
+        }
+
+        return false;
     }
 
     async sold(id:number, qnt: number) {
@@ -36,9 +44,7 @@ export class ProductsController extends Template {
             return false;
 
         product.qnt = product.qnt + qnt;
-
         product = await this.repository.save(product);
-
         return product;
     }
 }

@@ -19,6 +19,7 @@ export class ClientsController extends Template {
         clients.email = email;
         clients.phone = phone;
         clients.password = password;
+        clients.position = 'client';
         clients.createdat = new Date().getTime();
         clients.updatedat = new Date().getTime();
 

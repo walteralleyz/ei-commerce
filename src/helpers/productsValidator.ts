@@ -3,7 +3,7 @@ import { body, validationResult } from 'express-validator';
 
 export const create = [
     body(['label', 'category']).not().isEmpty().isLength({ min: 10 }).not().isNumeric(),
-    body('qnt').isNumeric(),
+    body('qnt').isNumeric().isInt({ min: 1 }),
     body('price').isFloat()
 ];
 

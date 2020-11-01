@@ -2,7 +2,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    OneToMany
+    OneToMany, Binary
 } from 'typeorm';
 import { IEntity } from '../controller/template';
 

@@ -8,16 +8,16 @@ import { Sales } from '../models/sales';
 
 config();
 
-export const options: ConnectionOptions = {
+const options: ConnectionOptions = {
     url: process.env.DATABASE_URL,
     synchronize: false,
     type: 'postgres',
     ssl: {
         rejectUnauthorized: false
     },
-    migrations: ['migration/*.js'],
+    migrations: ['build/migration/*.js'],
     cli: {
-        migrationsDir: 'migration'
+        migrationsDir: 'src/migration'
     },
     entities: [
         Cat,
@@ -26,3 +26,5 @@ export const options: ConnectionOptions = {
         Sales
     ]
 };
+
+export = options;
